@@ -23,7 +23,7 @@ module.exports = class PuggyCompiler {
 
     /** @type {PuggyCompiler[]} */
     this.components = [];
-    
+
     /** Keeps track of what events need to be triggered when a variable changes
      * @type {{[name: string]: string[]}} */
     this.variableEvents = {}
@@ -76,27 +76,27 @@ module.exports = class PuggyCompiler {
 
       // Define the component
       ...this.getComponentJs(),
-      
+
       ...this.variables.map(v => [
         `const set_${v.name} = (newValue) => {`,
         `  ${v.name} = newValue;`,
-          (this.variableEvents[v.name] ? this.variableEvents[v.name].map(ev => `  event_${ev}()`).join(`\n`) : ` // No matching event found`),
+        (this.variableEvents[v.name] ? this.variableEvents[v.name].map(ev => `  event_${ev}()`).join(`\n`) : ` // No matching event found`),
         `}`
       ].join(`\n`)),
-  
+
       ...this.conditionals.map(c => [
         `const event_${c.id} = () => {`,
         `  const ev = ${c.expression};`,
         ...c.when.map(when => `  document.getElementById("${when.id}").style.display = (ev === ${when.equals} ? '' : 'none');`),
         `}`
       ].join(`\n`)),
-  
+
       ...this.boundValues.map(c => [
         `const event_${c.id} = () => {`,
         `  document.getElementById("${c.id}").${c.attr} = ${c.expression};`,
         `}`
       ].join(`\n`)),
-  
+
       ...this.eachLoops.map(c => [
         `const event_${c.id} = () => {`,
         `  document.getElementById("${c.id}").innerHTML = ${c.array}.map(${c.runtimeArgs} => c_each_${c.id}(${c.runtimeArgs})).join('');`,
@@ -111,12 +111,12 @@ module.exports = class PuggyCompiler {
           `}`
         ].join(`\n`);
       }),
-  
+
       ``,
-      `window.addEventListener('load', function () {`,
+      `addEventListener("DOMContentLoaded", (event) => {`,
       // Set all variables when the page loads
       ...this.variables.map(v => `set_${v.name}(${v.value});`),
-      
+
       // Render all the components that don't have variable parameters
       ...this.componentDivs.filter(c => c.variableParm !== true).map(c => {
         return `event_${c.id}();`;
@@ -128,7 +128,7 @@ module.exports = class PuggyCompiler {
   }
 
   getComponentFunc() {
-    let code = generateCode(this.ast,  {
+    let code = generateCode(this.ast, {
       compileDebug: false,
       pretty: true,
       inlineRuntimeFunctions: true,
@@ -137,23 +137,23 @@ module.exports = class PuggyCompiler {
 
     return [
       `const c_${this.name} = (${this.variables.map(v => v.name).join(`, `)}) => {`,
-        code,
-        `return ${this.name}({${this.variables.map(v => v.name).join(`, `)}})`,
+      code,
+      `return ${this.name}({${this.variables.map(v => v.name).join(`, `)}})`,
       `};`
     ].join(`\n`)
   }
 
   getAsHtmlFile() {
-    let code = generateCode(this.ast,  {
+    let code = generateCode(this.ast, {
       compileDebug: false,
       pretty: true,
       inlineRuntimeFunctions: true,
       templateName: 'helloWorld'
     });
-  
+
     var func = wrap(code, 'helloWorld');
     let result = func();
-  
+
     result = [
       ``,
       `<script>`,
@@ -161,13 +161,13 @@ module.exports = class PuggyCompiler {
       `</script>`,
       ``
     ].join(`\n`) + result
-  
+
     return result;
   }
 
   static getAst(source, filename) {
-    var tokens = lex(source, {filename});
-    var ast = parse(tokens, {filename, source});
+    var tokens = lex(source, { filename });
+    var ast = parse(tokens, { filename, source });
     return ast;
   }
 
@@ -205,11 +205,11 @@ module.exports = class PuggyCompiler {
   * @param {any[]} nodes 
   */
   parseBlock(nodes) {
-   for (let i = 0; i < nodes.length; i++) {
-     const node = nodes[i];
+    for (let i = 0; i < nodes.length; i++) {
+      const node = nodes[i];
 
-     switch (node.type) {
-        case `Each`: 
+      switch (node.type) {
+        case `Each`:
           const { obj, val: expr, block: eachNodes } = node;
 
           // Create the div
@@ -224,12 +224,12 @@ module.exports = class PuggyCompiler {
 
           // Create the each component
           const eachRuntime = new PuggyCompiler(`each_${eachId}`, "component");
-          eachRuntime.variables = expr.split(`,`).map(v => ({name: v.trim(), value: "undefined"}));
+          eachRuntime.variables = expr.split(`,`).map(v => ({ name: v.trim(), value: "undefined" }));
           eachRuntime.ast = eachNodes;
           this.components.push(eachRuntime);
 
           // Create the event for the each loop
-          this.eachLoops.push({id: eachId, array: obj, runtimeArgs: expr});
+          this.eachLoops.push({ id: eachId, array: obj, runtimeArgs: expr });
 
           break;
 
@@ -240,7 +240,7 @@ module.exports = class PuggyCompiler {
             const mixinResultId = PuggyCompiler.randomId();
             const mixinDiv = PuggyCompiler.generateDiv(mixinResultId, [], false);
             nodes.splice(i, 1, mixinDiv);
-            
+
             let variableParm = false;
 
             args.split(`,`).forEach(w => {
@@ -252,7 +252,7 @@ module.exports = class PuggyCompiler {
                 this.variableEvents[w].push(mixinResultId);
               }
             });
-            
+
             this.componentDivs.push({
               id: mixinResultId,
               runtimeArgs: args,
@@ -262,7 +262,7 @@ module.exports = class PuggyCompiler {
 
           } else {
             const mixinRuntime = new PuggyCompiler(name, "component");
-            mixinRuntime.variables = args.split(`,`).map(v => ({name: v.trim(), value: "undefined"}));
+            mixinRuntime.variables = args.split(`,`).map(v => ({ name: v.trim(), value: "undefined" }));
             mixinRuntime.ast = block;
             // Do not parse this!!!!
             // mixinRuntime.parseBlock(block.nodes);
@@ -277,118 +277,121 @@ module.exports = class PuggyCompiler {
           break;
 
         case `Conditional`:
-         const { test, consequent, alternate } = node;
+          const { test, consequent, alternate } = node;
 
-         const trueId = PuggyCompiler.randomId();
-         const falseId = PuggyCompiler.randomId();
- 
-         // Capture what makes this conditional part show
-         const conditionEvent = PuggyCompiler.randomId();
-         this.conditionals.push({
-           id: conditionEvent,
-           expression: test,
-           when: [
-             {equals: `true`, id: trueId},
-             {equals: `false`, id: falseId}
-           ]
-         });
- 
-         // Then, we need to capture if this test contains any variables we know about
-         // so we can easily trigger the event if this variable changes
-         test.split(` `).forEach(w => {
-           if (this.variables.some(v => v.name === w)) {
-             if (!this.variableEvents[w]) this.variableEvents[w] = [];
- 
-             this.variableEvents[w].push(conditionEvent);
-           }
-         });
- 
-         const trueDiv = PuggyCompiler.generateDiv(trueId, consequent.nodes, true);
-         nodes.splice(i, 1, trueDiv);
+          const trueId = PuggyCompiler.randomId();
 
-         this.parseBlock(consequent.nodes);
- 
-         if (alternate) {
-           const falseDiv = PuggyCompiler.generateDiv(falseId, alternate.nodes, true);
-           nodes.splice(i, 0, falseDiv);
+          // Capture what makes this conditional part show
+          const conditionEvent = PuggyCompiler.randomId();
+          const currentCond = {
+            id: conditionEvent,
+            expression: test,
+            when: [
+              { equals: `true`, id: trueId },
+            ]
+          };
 
-           this.parseBlock(alternate.nodes);
-         }
-         break;
+          // Then, we need to capture if this test contains any variables we know about
+          // so we can easily trigger the event if this variable changes
+          test.split(` `).forEach(w => {
+            if (this.variables.some(v => v.name === w)) {
+              if (!this.variableEvents[w]) this.variableEvents[w] = [];
 
-       case `Code`:
-         const { val } = node;
-         if (val.startsWith(`let `) && val.includes(`=`)) {
-           const equals = val.indexOf(`=`);
-     
-           const name = val.substring(4, equals).trim();
-           const value = val.substring(equals+1).trim();
-           this.variables.push({name, value});
+              this.variableEvents[w].push(conditionEvent);
+            }
+          });
 
-         } else {
-           const boundId = PuggyCompiler.randomId();
-           const newDiv = PuggyCompiler.generateDiv(boundId, [], false);
+          const trueDiv = PuggyCompiler.generateDiv(trueId, consequent.nodes, true);
+          nodes.splice(i, 1, trueDiv);
 
-           nodes.splice(i, 1, newDiv);
+          this.parseBlock(consequent.nodes);
 
-           this.boundValues.push({id: boundId, expression: val, attr: `innerHTML`});
+          if (alternate) {
+            const falseId = PuggyCompiler.randomId();
+            const falseDiv = PuggyCompiler.generateDiv(falseId, alternate.nodes, true);
+            nodes.splice(i, 0, falseDiv);
 
-           // Then, we need to capture if this test contains any variables we know about
-           // so we can easily trigger the event if this variable changes
-           val.split(` `).forEach(w => {
-             if (this.variables.some(v => v.name === w)) {
-               if (!this.variableEvents[w]) this.variableEvents[w] = [];
-   
-               this.variableEvents[w].push(boundId);
-             }
-           })
-         }
-         break;
+            this.parseBlock(alternate.nodes);
 
-       default:
-         if (node.attrs) {
-           const existingIdAttr = node.attrs.find(a => a.name === `id`);
-           const boundId = (existingIdAttr ? existingIdAttr.val : PuggyCompiler.randomId());
-           let hasToBind = false;
-           
-           for (const attr of node.attrs) {
-             let doCurrentBind = false;
-             const { name, val } = attr;
-   
-             // Then, we need to capture if this test contains any variables we know about
-             // so we can easily trigger the event if this variable changes
-             val.split(` `).forEach(w => {
-               if (this.variables.some(v => v.name === w)) {
-                 doCurrentBind = true;
-                 if (!this.variableEvents[w]) this.variableEvents[w] = [];
-     
-                 this.variableEvents[w].push(boundId);
-               }
-             })
+            currentCond.when.push({equals: `false`, id: falseId});
+          }
 
-             if (doCurrentBind) {
-               this.boundValues.push({id: boundId, attr: name, expression: val});
-               hasToBind = true;
-             }
-           }
+          this.conditionals.push(currentCond);
+          break;
 
-           if (hasToBind) {
-             if (!existingIdAttr) {
-               // Push new one
-               node.attrs.push({
-                 name: "id",
-                 val: `'${boundId}'`,
-                 mustEscape: false,
-               });
-             }
-           }
-         }
+        case `Code`:
+          const { val } = node;
+          if (val.startsWith(`let `) && val.includes(`=`)) {
+            const equals = val.indexOf(`=`);
 
-         if (node.block) {
-           this.parseBlock(node.block.nodes);
-         }
-         break;
-     }
-   }
- }
+            const name = val.substring(4, equals).trim();
+            const value = val.substring(equals + 1).trim();
+            this.variables.push({ name, value });
+
+          } else {
+            const boundId = PuggyCompiler.randomId();
+            const newDiv = PuggyCompiler.generateDiv(boundId, [], false);
+
+            nodes.splice(i, 1, newDiv);
+
+            this.boundValues.push({ id: boundId, expression: val, attr: `innerHTML` });
+
+            // Then, we need to capture if this test contains any variables we know about
+            // so we can easily trigger the event if this variable changes
+            val.split(` `).forEach(w => {
+              if (this.variables.some(v => v.name === w)) {
+                if (!this.variableEvents[w]) this.variableEvents[w] = [];
+
+                this.variableEvents[w].push(boundId);
+              }
+            })
+          }
+          break;
+
+        default:
+          if (node.attrs) {
+            const existingIdAttr = node.attrs.find(a => a.name === `id`);
+            const boundId = (existingIdAttr ? existingIdAttr.val : PuggyCompiler.randomId());
+            let hasToBind = false;
+
+            for (const attr of node.attrs) {
+              let doCurrentBind = false;
+              const { name, val } = attr;
+
+              // Then, we need to capture if this test contains any variables we know about
+              // so we can easily trigger the event if this variable changes
+              val.split(` `).forEach(w => {
+                if (this.variables.some(v => v.name === w)) {
+                  doCurrentBind = true;
+                  if (!this.variableEvents[w]) this.variableEvents[w] = [];
+
+                  this.variableEvents[w].push(boundId);
+                }
+              })
+
+              if (doCurrentBind) {
+                this.boundValues.push({ id: boundId, attr: name, expression: val });
+                hasToBind = true;
+              }
+            }
+
+            if (hasToBind) {
+              if (!existingIdAttr) {
+                // Push new one
+                node.attrs.push({
+                  name: "id",
+                  val: `'${boundId}'`,
+                  mustEscape: false,
+                });
+              }
+            }
+          }
+
+          if (node.block) {
+            this.parseBlock(node.block.nodes);
+          }
+          break;
+      }
+    }
+  }
 }
