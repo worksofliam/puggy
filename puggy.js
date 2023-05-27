@@ -49,6 +49,23 @@ module.exports = class PuggyCompiler {
     }
   }
 
+  /**
+   * Prepare for the biggest hack EVER.
+   * This replaces local mix in calls to global component calls
+   */
+  getComponentJs() {
+    const componentNames = this.components.map(c => c.name);
+    const globalComponents = this.components.map(c => c.getComponentFunc());
+
+    for (let i = 0; i < globalComponents.length; i++) {
+      componentNames.forEach(cn => {
+        globalComponents[i] = globalComponents[i].replace(new RegExp(`pug\\_mixins\\["${cn}"\\]`, `g`), `pug_html += c_${cn}`);
+      })
+    }
+
+    return globalComponents;
+  }
+
   getRuntimeJs() {
     const script = [
       ...this.variables.map(v => `let ${v.name} = undefined;`),
@@ -74,7 +91,7 @@ module.exports = class PuggyCompiler {
       ].join(`\n`)),
 
       // Define the component
-      ...this.components.map(c => c.getComponentFunc()),
+      ...this.getComponentJs(),
 
       // Define the events that update component calls
       ...this.componentDivs.map(c => {

@@ -4,11 +4,11 @@ let mypet = undefined;
 let isbold = undefined;
 const set_mypet = (newValue) => {
   mypet = newValue;
-  event_443dbd59421a0a7e()
+  event_12a07fff9e38e4b4()
 }
 const set_isbold = (newValue) => {
   isbold = newValue;
-  event_443dbd59421a0a7e()
+  event_12a07fff9e38e4b4()
 }
 const c_pet = (name) => {
 function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
@@ -17,43 +17,46 @@ pug_html = pug_html + "\n\u003Cli class=\"pet\"\u003E" + (pug_escape(null == (pu
 return pet({name})
 };
 const c_coolpet = (name, bold) => {
-function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
-var pug_match_html=/["&<>]/;function coolpet(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (bold, name) {var pug_indent = [];
-pug_html = pug_html + "\n\u003Cli class=\"pet\"\u003E";
+function coolpet(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (bold, name) {var pug_indent = [];
 if (bold) {
-pug_html = pug_html + "\u003Cb\u003E" + (pug_escape(null == (pug_interp = name) ? "" : pug_interp)) + "\u003C\u002Fb\u003E";
+pug_html = pug_html + "\u003Cb\u003E";
+pug_indent.push('  ');
+pug_html += c_pet(name);
+pug_indent.pop();
+pug_html = pug_html + "\u003C\u002Fb\u003E";
 }
 else {
-pug_html = pug_html + "\u003Cspan\u003E" + (pug_escape(null == (pug_interp = name) ? "" : pug_interp)) + "\u003C\u002Fspan\u003E";
-}
-pug_html = pug_html + "\n\u003C\u002Fli\u003E";}.call(this,"bold" in locals_for_with?locals_for_with.bold:typeof bold!=="undefined"?bold:undefined,"name" in locals_for_with?locals_for_with.name:typeof name!=="undefined"?name:undefined));;return pug_html;}
+pug_indent.push('');
+pug_html += c_pet(name);
+pug_indent.pop();
+}}.call(this,"bold" in locals_for_with?locals_for_with.bold:typeof bold!=="undefined"?bold:undefined,"name" in locals_for_with?locals_for_with.name:typeof name!=="undefined"?name:undefined));;return pug_html;}
 return coolpet({name, bold})
 };
-const event_443dbd59421a0a7e = () => {
-  document.getElementById("443dbd59421a0a7e").innerHTML = c_coolpet(mypet, isbold);
+const event_12a07fff9e38e4b4 = () => {
+  document.getElementById("12a07fff9e38e4b4").innerHTML = c_coolpet(mypet, isbold);
 }
-const event_69cd9a4204e4701b = () => {
-  document.getElementById("69cd9a4204e4701b").innerHTML = c_pet('cat');
+const event_66b9bd5c29c5d680 = () => {
+  document.getElementById("66b9bd5c29c5d680").innerHTML = c_pet('cat');
 }
-const event_13766d10fecf896b = () => {
-  document.getElementById("13766d10fecf896b").innerHTML = c_coolpet('dog', true);
+const event_be8d5abd93d9ad8f = () => {
+  document.getElementById("be8d5abd93d9ad8f").innerHTML = c_coolpet('dog', true);
 }
-const event_7cc4e2aff4bbf597 = () => {
-  document.getElementById("7cc4e2aff4bbf597").innerHTML = c_pet('pig');
+const event_3b6a81a76123d998 = () => {
+  document.getElementById("3b6a81a76123d998").innerHTML = c_pet('pig');
 }
 
 window.addEventListener('load', function () {
 set_mypet('cow');
 set_isbold(false);
-event_69cd9a4204e4701b();
-event_13766d10fecf896b();
-event_7cc4e2aff4bbf597();
+event_66b9bd5c29c5d680();
+event_be8d5abd93d9ad8f();
+event_3b6a81a76123d998();
 });
 </script>
 
 <ul>
-  <div id="443dbd59421a0a7e"></div>
-  <div id="69cd9a4204e4701b"></div>
-  <div id="13766d10fecf896b"></div>
-  <div id="7cc4e2aff4bbf597"></div>
+  <div id="12a07fff9e38e4b4"></div>
+  <div id="66b9bd5c29c5d680"></div>
+  <div id="be8d5abd93d9ad8f"></div>
+  <div id="3b6a81a76123d998"></div>
 </ul>

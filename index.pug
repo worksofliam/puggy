@@ -3,11 +3,11 @@
 mixin pet(name)
   li.pet=name
 mixin coolpet(name, bold)
-  li.pet
-    if bold
-      b=name
-    else
-      span=name
+  if bold
+    b
+      +pet(name)
+  else
+    +pet(name)
 ul
   +coolpet(mypet, isbold)
   +pet('cat')
