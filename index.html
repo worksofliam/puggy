@@ -3,20 +3,20 @@
 let myvar = undefined;
 const set_myvar = (newValue) => {
   myvar = newValue;
-  event_e06961727bb8324b()
-  event_982e63d85c2529d2()
-  event_5e9827eb99bb1513()
+  event_c72abe6179304ba5()
+  event_fbe1d8144f931c78()
+  event_f7fbf62d9a895518()
 }
-const event_e06961727bb8324b = () => {
+const event_c72abe6179304ba5 = () => {
   const ev = myvar === 'Hi';
-  document.getElementById("9656651c45da2f8c").style.display = (ev === true ? '' : 'none');
-  document.getElementById("0984ddc99c03a400").style.display = (ev === false ? '' : 'none');
+  document.getElementById("d0bb7c2b8f2a8e31").style.display = (ev === true ? '' : 'none');
+  document.getElementById("565b3f8d10ec416b").style.display = (ev === false ? '' : 'none');
 }
-const event_982e63d85c2529d2 = () => {
-  document.getElementById("982e63d85c2529d2").innerHTML = myvar;
+const event_fbe1d8144f931c78 = () => {
+  document.getElementById("fbe1d8144f931c78").innerHTML = myvar;
 }
-const event_5e9827eb99bb1513 = () => {
-  document.getElementById("5e9827eb99bb1513").href = myvar;
+const event_f7fbf62d9a895518 = () => {
+  document.getElementById("f7fbf62d9a895518").href = myvar;
 }
 
 window.addEventListener('load', function () {
@@ -25,8 +25,8 @@ set_myvar('Hi');
 </script>
 
 <div id="abcd">
-  <div id="0984ddc99c03a400" style="display: none;"><span>
-      <div id="982e63d85c2529d2"></div></span></div>
-  <div id="9656651c45da2f8c" style="display: none;"><span>Hello world</span></div>
+  <div id="565b3f8d10ec416b" style="display: none;"><span>
+      <div id="fbe1d8144f931c78"></div></span></div>
+  <div id="d0bb7c2b8f2a8e31" style="display: none;"><span>Hello world</span></div>
 </div><span>
-  Always hereand here</span><a href="Hi" id="5e9827eb99bb1513">Home</a>
+  Always hereand here</span><a href="Hi" id="f7fbf62d9a895518">Home</a>
