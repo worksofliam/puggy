@@ -1,32 +1,40 @@
 
 <script>
-let myvar = undefined;
-const set_myvar = (newValue) => {
-  myvar = newValue;
-  event_c72abe6179304ba5()
-  event_fbe1d8144f931c78()
-  event_f7fbf62d9a895518()
+let mypet = undefined;
+const set_mypet = (newValue) => {
+  mypet = newValue;
+  event_fbdb4927e8f08ae0()
 }
-const event_c72abe6179304ba5 = () => {
-  const ev = myvar === 'Hi';
-  document.getElementById("d0bb7c2b8f2a8e31").style.display = (ev === true ? '' : 'none');
-  document.getElementById("565b3f8d10ec416b").style.display = (ev === false ? '' : 'none');
+const c_pet = (name) => {
+function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
+var pug_match_html=/["&<>]/;function pet(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (name) {var pug_indent = [];
+pug_html = pug_html + "\n\u003Cli class=\"pet\"\u003E" + (pug_escape(null == (pug_interp = name) ? "" : pug_interp)) + "\u003C\u002Fli\u003E";}.call(this,"name" in locals_for_with?locals_for_with.name:typeof name!=="undefined"?name:undefined));;return pug_html;}
+return pet({name})
+};
+const event_fbdb4927e8f08ae0 = () => {
+  document.getElementById("fbdb4927e8f08ae0").innerHTML = c_pet(mypet);
 }
-const event_fbe1d8144f931c78 = () => {
-  document.getElementById("fbe1d8144f931c78").innerHTML = myvar;
+const event_2dc37559c018d8e1 = () => {
+  document.getElementById("2dc37559c018d8e1").innerHTML = c_pet('cat');
 }
-const event_f7fbf62d9a895518 = () => {
-  document.getElementById("f7fbf62d9a895518").href = myvar;
+const event_9e00f526a2e74e2d = () => {
+  document.getElementById("9e00f526a2e74e2d").innerHTML = c_pet('dog');
+}
+const event_9358e50ac177877e = () => {
+  document.getElementById("9358e50ac177877e").innerHTML = c_pet('pig');
 }
 
 window.addEventListener('load', function () {
-set_myvar('Hi');
+set_mypet('cow');
+event_2dc37559c018d8e1();
+event_9e00f526a2e74e2d();
+event_9358e50ac177877e();
 });
 </script>
 
-<div id="abcd">
-  <div id="565b3f8d10ec416b" style="display: none;"><span>
-      <div id="fbe1d8144f931c78"></div></span></div>
-  <div id="d0bb7c2b8f2a8e31" style="display: none;"><span>Hello world</span></div>
-</div><span>
-  Always hereand here</span><a href="Hi" id="f7fbf62d9a895518">Home</a>
+<ul>
+  <div id="fbdb4927e8f08ae0"></div>
+  <div id="2dc37559c018d8e1"></div>
+  <div id="9e00f526a2e74e2d"></div>
+  <div id="9358e50ac177877e"></div>
+</ul>

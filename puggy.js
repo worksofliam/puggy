@@ -1,3 +1,5 @@
+"use strict";
+
 const parse = require('pug-parser');
 const lex = require('pug-lexer');
 const generateCode = require('pug-code-gen');
@@ -5,24 +7,40 @@ const wrap = require('pug-runtime/wrap');
 const crypto = require("crypto");
 
 module.exports = class PuggyCompiler {
-  constructor() {
+  /**
+   * @param {"main"|"component"} type 
+   */
+  constructor(name, type = "main") {
+    this.name = name;
+    this.type = type;
+
     /** @type {{name: string, value: string}[]} */
     this.variables = [];
 
-    /** @type {{id: string, expression: string, when: {equals: string, id: string}[]}[]} */
+    /** @type {PuggyCompiler[]} */
+    this.components = [];
+    
+    /** Keeps track of what events need to be triggered when a variable changes
+     * @type {{[name: string]: string[]}} */
+    this.variableEvents = {}
+
+    /** Conditions is used to determine which divs should be rendered based on an expression
+     * @type {{id: string, expression: string, when: {equals: string, id: string}[]}[]} */
     this.conditionals = [];
 
-    /** @type {{id: string, attr: string, expression: string}[]} */
+    /** boundValues is used for updating an attribute of a node (like innerHTML, href, etc)
+     * @type {{id: string, attr: string, expression: string}[]} */
     this.boundValues = [];
-    
-    /** @type {{[name: string]: string[]}} */
-    this.variableEvents = {}
+
+    /** When a component is reference, it has to be rendered after the page loads
+     * @type {{id: string, runtimeArgs: string, component: string, variableParm?: boolean}[]} */
+    this.componentDivs = [];
 
     this.ast = [];
   }
 
-  parse(source, filename = `index.pug`) {
-    this.ast = PuggyCompiler.getAst(source, filename);
+  parse(source) {
+    this.ast = PuggyCompiler.getAst(source, this.name);
 
     if (this.ast.nodes && this.ast.nodes.length) {
       this.parseBlock(this.ast.nodes);
@@ -54,14 +72,48 @@ module.exports = class PuggyCompiler {
         `  document.getElementById("${c.id}").${c.attr} = ${c.expression};`,
         `}`
       ].join(`\n`)),
+
+      // Define the component
+      ...this.components.map(c => c.getComponentFunc()),
+
+      // Define the events that update component calls
+      ...this.componentDivs.map(c => {
+        return [
+          `const event_${c.id} = () => {`,
+          `  document.getElementById("${c.id}").innerHTML = c_${c.component}(${c.runtimeArgs});`,
+          `}`
+        ].join(`\n`);
+      }),
   
       ``,
       `window.addEventListener('load', function () {`,
+      // Set all variables when the page loads
       ...this.variables.map(v => `set_${v.name}(${v.value});`),
+      
+      // Render all the components that don't have variable parameters
+      ...this.componentDivs.filter(c => c.variableParm !== true).map(c => {
+        return `event_${c.id}();`;
+      }),
       `});`,
     ].join(`\n`)
 
     return script;
+  }
+
+  getComponentFunc() {
+    let code = generateCode(this.ast,  {
+      compileDebug: false,
+      pretty: true,
+      inlineRuntimeFunctions: true,
+      templateName: this.name
+    });
+
+    return [
+      `const c_${this.name} = (${this.variables.map(v => v.name).join(`, `)}) => {`,
+        code,
+        `return ${this.name}({${this.variables.map(v => v.name).join(`, `)}})`,
+      `};`
+    ].join(`\n`)
   }
 
   getAsHtmlFile() {
@@ -130,7 +182,50 @@ module.exports = class PuggyCompiler {
      const node = nodes[i];
 
      switch (node.type) {
-       case `Conditional`:
+        case `Mixin`:
+          const { name, args, block, call } = node;
+
+          if (call) {
+            const mixinResultId = PuggyCompiler.randomId();
+            const mixinDiv = PuggyCompiler.generateDiv(mixinResultId, [], false);
+            nodes.splice(i, 1, mixinDiv);
+            
+            let variableParm = false;
+
+            args.split(`,`).forEach(w => {
+              if (this.variables.some(v => v.name === w.trim())) {
+                variableParm = true;
+                if (!this.variableEvents[w]) this.variableEvents[w] = [];
+
+                this.variableEvents[w].push(mixinResultId);
+              }
+            });
+            
+            this.componentDivs.push({
+              id: mixinResultId,
+              runtimeArgs: args,
+              component: name,
+              variableParm
+            });
+
+          } else {
+            const mixinRuntime = new PuggyCompiler(name, "component");
+            mixinRuntime.variables = args.split(`,`).map(v => ({name: v.trim(), value: "undefined"}));
+
+            mixinRuntime.ast = block;
+            // Do not parse this!!!!
+            // mixinRuntime.parseBlock(block.nodes);
+
+            // Remove the mixin from the base
+            nodes.splice(i, 1);
+            i -= 1;
+
+            this.components.push(mixinRuntime);
+          }
+
+          break;
+
+        case `Conditional`:
          const { test, consequent, alternate } = node;
 
          const trueId = PuggyCompiler.randomId();
