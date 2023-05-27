@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "pug-code-gen": "^2.0.3",
+    "pug-lexer": "^5.0.1",
+    "pug-parser": "^6.0.0",
+    "pug-runtime": "^3.0.1"
+  }
+}

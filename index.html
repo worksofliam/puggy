@@ -1,0 +1,32 @@
+
+<script>
+let myvar = undefined;
+const set_myvar = (newValue) => {
+  myvar = newValue;
+  event_e06961727bb8324b()
+  event_982e63d85c2529d2()
+  event_5e9827eb99bb1513()
+}
+const event_e06961727bb8324b = () => {
+  const ev = myvar === 'Hi';
+  document.getElementById("9656651c45da2f8c").style.display = (ev === true ? '' : 'none');
+  document.getElementById("0984ddc99c03a400").style.display = (ev === false ? '' : 'none');
+}
+const event_982e63d85c2529d2 = () => {
+  document.getElementById("982e63d85c2529d2").innerHTML = myvar;
+}
+const event_5e9827eb99bb1513 = () => {
+  document.getElementById("5e9827eb99bb1513").href = myvar;
+}
+
+window.addEventListener('load', function () {
+set_myvar('Hi');
+});
+</script>
+
+<div id="abcd">
+  <div id="0984ddc99c03a400" style="display: none;"><span>
+      <div id="982e63d85c2529d2"></div></span></div>
+  <div id="9656651c45da2f8c" style="display: none;"><span>Hello world</span></div>
+</div><span>
+  Always hereand here</span><a href="Hi" id="5e9827eb99bb1513">Home</a>
