@@ -165,42 +165,6 @@ module.exports = class PuggyCompiler {
     return result;
   }
 
-  static getAst(source, filename) {
-    var tokens = lex(source, { filename });
-    var ast = parse(tokens, { filename, source });
-    return ast;
-  }
-
-  static generateDiv(id, nodes, hidden = false) {
-    return {
-      type: "Tag",
-      name: "div",
-      selfClosing: false,
-      block: {
-        type: "Block",
-        nodes,
-      },
-      attrs: [
-        {
-          name: "id",
-          val: `'${id}'`,
-          mustEscape: false,
-        },
-        ...(hidden ? [{
-          name: "style",
-          val: "\"display: none;\"",
-          mustEscape: true,
-        }] : [])
-      ],
-      attributeBlocks: [],
-      isInline: false,
-    }
-  }
-
-  static randomId() {
-    return crypto.randomBytes(8).toString("hex");
-  }
-
   /**
   * @param {any[]} nodes 
   */
@@ -393,5 +357,41 @@ module.exports = class PuggyCompiler {
           break;
       }
     }
+  }
+
+  static getAst(source, filename) {
+    var tokens = lex(source, { filename });
+    var ast = parse(tokens, { filename, source });
+    return ast;
+  }
+
+  static generateDiv(id, nodes, hidden = false) {
+    return {
+      type: "Tag",
+      name: "div",
+      selfClosing: false,
+      block: {
+        type: "Block",
+        nodes,
+      },
+      attrs: [
+        {
+          name: "id",
+          val: `'${id}'`,
+          mustEscape: false,
+        },
+        ...(hidden ? [{
+          name: "style",
+          val: "\"display: none;\"",
+          mustEscape: true,
+        }] : [])
+      ],
+      attributeBlocks: [],
+      isInline: false,
+    }
+  }
+
+  static randomId() {
+    return crypto.randomBytes(8).toString("hex");
   }
 }
