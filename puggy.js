@@ -17,6 +17,10 @@ module.exports = class PuggyCompiler {
     /** @type {{name: string, value: string}[]} */
     this.variables = [];
 
+    /** We need to create the event for each loops
+     * @type {{id: string, array: string, runtimeArgs: string}[]} */
+    this.eachLoops = [];
+
     /** @type {PuggyCompiler[]} */
     this.components = [];
     
@@ -69,6 +73,9 @@ module.exports = class PuggyCompiler {
   getRuntimeJs() {
     const script = [
       ...this.variables.map(v => `let ${v.name} = undefined;`),
+
+      // Define the component
+      ...this.getComponentJs(),
       
       ...this.variables.map(v => [
         `const set_${v.name} = (newValue) => {`,
@@ -89,9 +96,12 @@ module.exports = class PuggyCompiler {
         `  document.getElementById("${c.id}").${c.attr} = ${c.expression};`,
         `}`
       ].join(`\n`)),
-
-      // Define the component
-      ...this.getComponentJs(),
+  
+      ...this.eachLoops.map(c => [
+        `const event_${c.id} = () => {`,
+        `  document.getElementById("${c.id}").innerHTML = ${c.array}.map(${c.runtimeArgs} => c_each_${c.id}(${c.runtimeArgs})).join('');`,
+        `}`
+      ].join(`\n`)),
 
       // Define the events that update component calls
       ...this.componentDivs.map(c => {
@@ -199,6 +209,30 @@ module.exports = class PuggyCompiler {
      const node = nodes[i];
 
      switch (node.type) {
+        case `Each`: 
+          const { obj, val: expr, block: eachNodes } = node;
+
+          // Create the div
+          const eachId = PuggyCompiler.randomId();
+          const eachDiv = PuggyCompiler.generateDiv(eachId, [], false);
+          nodes.splice(i, 1, eachDiv);
+
+          if (this.variables.some(v => v.name === obj)) {
+            if (!this.variableEvents[obj]) this.variableEvents[obj] = [];
+            this.variableEvents[obj].push(eachId);
+          }
+
+          // Create the each component
+          const eachRuntime = new PuggyCompiler(`each_${eachId}`, "component");
+          eachRuntime.variables = expr.split(`,`).map(v => ({name: v.trim(), value: "undefined"}));
+          eachRuntime.ast = eachNodes;
+          this.components.push(eachRuntime);
+
+          // Create the event for the each loop
+          this.eachLoops.push({id: eachId, array: obj, runtimeArgs: expr});
+
+          break;
+
         case `Mixin`:
           const { name, args, block, call } = node;
 
@@ -229,7 +263,6 @@ module.exports = class PuggyCompiler {
           } else {
             const mixinRuntime = new PuggyCompiler(name, "component");
             mixinRuntime.variables = args.split(`,`).map(v => ({name: v.trim(), value: "undefined"}));
-
             mixinRuntime.ast = block;
             // Do not parse this!!!!
             // mixinRuntime.parseBlock(block.nodes);
