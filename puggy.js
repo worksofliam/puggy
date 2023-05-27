@@ -207,7 +207,7 @@ module.exports = class PuggyCompiler {
 
             let variableParm = false;
 
-            args.split(`,`).forEach(w => {
+            PuggyCompiler.parseExpression(args).forEach(w => {
               w = w.trim();
               if (this.variables.some(v => v.name === w)) {
                 variableParm = true;
@@ -257,7 +257,7 @@ module.exports = class PuggyCompiler {
 
           // Then, we need to capture if this test contains any variables we know about
           // so we can easily trigger the event if this variable changes
-          test.split(` `).forEach(w => {
+          PuggyCompiler.parseExpression(test).forEach(w => {
             if (this.variables.some(v => v.name === w)) {
               if (!this.variableEvents[w]) this.variableEvents[w] = [];
 
@@ -302,7 +302,7 @@ module.exports = class PuggyCompiler {
 
             // Then, we need to capture if this test contains any variables we know about
             // so we can easily trigger the event if this variable changes
-            val.split(` `).forEach(w => {
+            PuggyCompiler.parseExpression(val).forEach(w => {
               if (this.variables.some(v => v.name === w)) {
                 if (!this.variableEvents[w]) this.variableEvents[w] = [];
 
@@ -324,7 +324,7 @@ module.exports = class PuggyCompiler {
 
               // Then, we need to capture if this test contains any variables we know about
               // so we can easily trigger the event if this variable changes
-              val.split(` `).forEach(w => {
+              PuggyCompiler.parseExpression(val).forEach(w => {
                 if (this.variables.some(v => v.name === w)) {
                   doCurrentBind = true;
                   if (!this.variableEvents[w]) this.variableEvents[w] = [];
@@ -393,5 +393,42 @@ module.exports = class PuggyCompiler {
 
   static randomId() {
     return crypto.randomBytes(8).toString("hex");
+  }
+
+  /**
+   * Parses an expression to get possible variables out
+   */
+  static parseExpression(expr) {
+    let words = [];
+    let inString = false;
+    let currentWord = ``;
+
+    for (const character of expr) {
+      if ([`'`, `"`, `\``].includes(character)) {
+        inString = !inString;
+        currentWord += character;
+
+        if (inString === false) {
+          // We don't want strings really.
+          // if (currentWord) words.push(currentWord);
+          currentWord = ``;
+        }
+
+      } else {
+        if (inString) {
+          currentWord += character
+        } else {
+          if (/^[A-Za-z0-9]+$/.test(character)) {
+            currentWord += character
+          } else {
+            if (currentWord) words.push(currentWord);
+            currentWord = ``;
+          }
+        }
+      }
+    }
+
+    if (currentWord) words.push(currentWord);
+    return words;
   }
 }
