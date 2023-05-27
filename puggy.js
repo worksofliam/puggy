@@ -193,7 +193,8 @@ module.exports = class PuggyCompiler {
             let variableParm = false;
 
             args.split(`,`).forEach(w => {
-              if (this.variables.some(v => v.name === w.trim())) {
+              w = w.trim();
+              if (this.variables.some(v => v.name === w)) {
                 variableParm = true;
                 if (!this.variableEvents[w]) this.variableEvents[w] = [];
 

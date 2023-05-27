@@ -1,0 +1,15 @@
+- let mypet = 'cow'
+- let isbold = false
+mixin pet(name)
+  li.pet=name
+mixin coolpet(name, bold)
+  li.pet
+    if bold
+      b=name
+    else
+      span=name
+ul
+  +coolpet(mypet, isbold)
+  +pet('cat')
+  +coolpet('dog', true)
+  +pet('pig')

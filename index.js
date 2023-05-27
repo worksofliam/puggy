@@ -1,5 +1,5 @@
 
-const { writeFileSync } = require('fs');
+const { writeFileSync, readFileSync } = require('fs');
 const PuggyCompiler = require('./puggy');
 
 var filename = 'my-file.pug';
@@ -15,16 +15,7 @@ var filename = 'my-file.pug';
 //   `a(href=myvar) Home`
 // ].join(`\n`);
 
-let src = [
-  `- let mypet = 'cow'`,
-  `mixin pet(name)`,
-  `  li.pet=name`,
-  `ul`,
-  `  +pet(mypet)`,
-  `  +pet('cat')`,
-  `  +pet('dog')`,
-  `  +pet('pig')`,
-].join(`\n`);
+let src = readFileSync(`index.pug`, {encoding: `utf-8`});
 
 const pc = new PuggyCompiler(filename);
 
