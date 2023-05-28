@@ -5,6 +5,8 @@ const lex = require('pug-lexer');
 const generateCode = require('pug-code-gen');
 const wrap = require('pug-runtime/wrap');
 const crypto = require("crypto");
+const { readFileSync } = require('fs');
+const path = require('path');
 
 module.exports = class PuggyCompiler {
   /**
@@ -43,8 +45,8 @@ module.exports = class PuggyCompiler {
     this.ast = [];
   }
 
-  parse(source) {
-    this.ast = PuggyCompiler.getAst(source, this.name);
+  parse(sourcePath) {
+    this.ast = PuggyCompiler.getAst(sourcePath, this.name);
 
     if (this.ast.nodes && this.ast.nodes.length) {
       this.parseBlock(this.ast.nodes);
@@ -359,9 +361,32 @@ module.exports = class PuggyCompiler {
     }
   }
 
-  static getAst(source, filename) {
+  static getAst(sourcePath, filename) {
+    const source = readFileSync(sourcePath, {encoding: `utf-8`});
     var tokens = lex(source, { filename });
     var ast = parse(tokens, { filename, source });
+
+    const resolveBlockIncludes = (nodes) => {
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        if (node.type === `Include`) {
+          const { file } = node;
+          const subAst = this.getAst(
+            path.join(path.dirname(file.path), file.path), 
+            path.basename(file.path)
+          );
+          if (subAst.nodes) {
+            nodes.splice(i, 1, ...subAst.nodes)
+            i = (i - 1) + subAst.nodes.length;
+          }
+        } else if (node.block) {
+          resolveBlockIncludes(node.block.nodes)
+        }
+      }
+    }
+
+    resolveBlockIncludes(ast.nodes);
+
     return ast;
   }
 

@@ -1,5 +1,5 @@
 
-const { writeFileSync, readFileSync } = require('fs');
+const { writeFileSync } = require('fs');
 const PuggyCompiler = require('./puggy');
 
 var filename = 'my-file.pug';
@@ -15,11 +15,9 @@ var filename = 'my-file.pug';
 //   `a(href=myvar) Home`
 // ].join(`\n`);
 
-let src = readFileSync(`index.pug`, {encoding: `utf-8`});
+const pc = new PuggyCompiler(`index.pug`);
 
-const pc = new PuggyCompiler(filename);
-
-pc.parse(src);
+pc.parse(`index.pug`);
 const result = pc.getAsHtmlFile();
 
 console.log(result);
