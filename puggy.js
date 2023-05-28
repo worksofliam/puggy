@@ -170,7 +170,7 @@ module.exports = class PuggyCompiler {
   /**
   * @param {any[]} nodes 
   */
-  parseBlock(nodes) {
+  parseBlock(nodes, groupId) {
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
 
@@ -178,10 +178,15 @@ module.exports = class PuggyCompiler {
         case `Each`:
           const { obj, val: expr, block: eachNodes } = node;
 
+          const useParentAsDiv = groupId !== undefined && nodes.length === 1;
+
           // Create the div
-          const eachId = PuggyCompiler.randomId();
-          const eachDiv = PuggyCompiler.generateDiv(eachId, [], false);
-          nodes.splice(i, 1, eachDiv);
+          const eachId = useParentAsDiv ? trimQuotes(groupId) : PuggyCompiler.randomId();
+
+          if (!useParentAsDiv) {
+            const eachDiv = PuggyCompiler.generateDiv(eachId, [], false);
+            nodes.splice(i, 1, eachDiv);
+          }
 
           if (this.variables.some(v => v.name === obj)) {
             if (!this.variableEvents[obj]) this.variableEvents[obj] = [];
@@ -196,7 +201,6 @@ module.exports = class PuggyCompiler {
 
           // Create the event for the each loop
           this.eachLoops.push({ id: eachId, array: obj, runtimeArgs: expr });
-
           break;
 
         case `Mixin`:
@@ -270,14 +274,14 @@ module.exports = class PuggyCompiler {
           const trueDiv = PuggyCompiler.generateDiv(trueId, consequent.nodes, true);
           nodes.splice(i, 1, trueDiv);
 
-          this.parseBlock(consequent.nodes);
+          this.parseBlock(consequent.nodes, conditionEvent);
 
           if (alternate) {
             const falseId = PuggyCompiler.randomId();
             const falseDiv = PuggyCompiler.generateDiv(falseId, alternate.nodes, true);
             nodes.splice(i, 0, falseDiv);
 
-            this.parseBlock(alternate.nodes);
+            this.parseBlock(alternate.nodes, conditionEvent);
 
             currentCond.when.push({equals: `false`, id: falseId});
           }
@@ -315,8 +319,8 @@ module.exports = class PuggyCompiler {
           break;
 
         default:
+          const existingIdAttr = node.attrs ? node.attrs.find(a => a.name === `id`) : undefined;
           if (node.attrs) {
-            const existingIdAttr = node.attrs.find(a => a.name === `id`);
             const boundId = (existingIdAttr ? existingIdAttr.val : PuggyCompiler.randomId());
             let hasToBind = false;
 
@@ -354,7 +358,7 @@ module.exports = class PuggyCompiler {
           }
 
           if (node.block) {
-            this.parseBlock(node.block.nodes);
+            this.parseBlock(node.block.nodes, existingIdAttr ? existingIdAttr.val : undefined);
           }
           break;
       }
@@ -456,4 +460,10 @@ module.exports = class PuggyCompiler {
     if (currentWord) words.push(currentWord);
     return words;
   }
+}
+
+const trimQuotes = (input) => {
+  if (input.startsWith(`'`)) input = input.substring(1);
+  if (input.endsWith(`'`)) input = input.substring(0, input.length-1);
+  return input;
 }
