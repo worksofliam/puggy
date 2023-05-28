@@ -49,7 +49,7 @@ module.exports = class PuggyCompiler {
     this.ast = PuggyCompiler.getAst(sourcePath, this.name);
 
     if (this.ast.nodes && this.ast.nodes.length) {
-      this.parseBlock(this.ast.nodes);
+      this._parseBlock(this.ast.nodes);
     } else {
       throw new Error(`No nodes to parse`);
     }
@@ -59,7 +59,7 @@ module.exports = class PuggyCompiler {
    * Prepare for the biggest hack EVER.
    * This replaces local mix in calls to global component calls
    */
-  getComponentJs() {
+  _getComponentJs() {
     const componentNames = this.components.map(c => c.name);
     const globalComponents = this.components.map(c => c.getComponentFunc());
 
@@ -72,12 +72,12 @@ module.exports = class PuggyCompiler {
     return globalComponents;
   }
 
-  getRuntimeJs() {
+  _getRuntimeJs() {
     const script = [
       ...this.variables.map(v => `let ${v.name} = undefined;`),
 
       // Define the component
-      ...this.getComponentJs(),
+      ...this._getComponentJs(),
 
       ...this.variables.map(v => [
         `const set_${v.name} = (newValue) => {`,
@@ -159,7 +159,7 @@ module.exports = class PuggyCompiler {
     result = [
       ``,
       `<script>`,
-      this.getRuntimeJs(),
+      this._getRuntimeJs(),
       `</script>`,
       ``
     ].join(`\n`) + result
@@ -170,7 +170,7 @@ module.exports = class PuggyCompiler {
   /**
   * @param {any[]} nodes 
   */
-  parseBlock(nodes, groupId) {
+  _parseBlock(nodes, groupId) {
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
 
@@ -274,14 +274,14 @@ module.exports = class PuggyCompiler {
           const trueDiv = PuggyCompiler.generateDiv(trueId, consequent.nodes, true);
           nodes.splice(i, 1, trueDiv);
 
-          this.parseBlock(consequent.nodes, conditionEvent);
+          this._parseBlock(consequent.nodes, conditionEvent);
 
           if (alternate) {
             const falseId = PuggyCompiler.randomId();
             const falseDiv = PuggyCompiler.generateDiv(falseId, alternate.nodes, true);
             nodes.splice(i, 0, falseDiv);
 
-            this.parseBlock(alternate.nodes, conditionEvent);
+            this._parseBlock(alternate.nodes, conditionEvent);
 
             currentCond.when.push({equals: `false`, id: falseId});
           }
@@ -358,7 +358,7 @@ module.exports = class PuggyCompiler {
           }
 
           if (node.block) {
-            this.parseBlock(node.block.nodes, existingIdAttr ? existingIdAttr.val : undefined);
+            this._parseBlock(node.block.nodes, existingIdAttr ? existingIdAttr.val : undefined);
           }
           break;
       }
@@ -376,7 +376,7 @@ module.exports = class PuggyCompiler {
         if (node.type === `Include`) {
           const { file } = node;
           const subAst = this.getAst(
-            path.join(path.dirname(file.path), file.path), 
+            path.join(path.dirname(sourcePath), file.path), 
             path.basename(file.path)
           );
           if (subAst.nodes) {

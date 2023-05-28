@@ -1,24 +1,15 @@
 
 const { writeFileSync } = require('fs');
 const PuggyCompiler = require('./puggy');
+const path = require('path');
 
-var filename = 'my-file.pug';
-// var src = [
-//   `- let myvar = 'Hi'`,
-//   'div#abcd', 
-//   `  if myvar === 'Hi'`,
-//   `    span Hello world`,
-//   `  else`,
-//   `    span=myvar`,
-//   `span Always here`,
-//   `  | and here`,
-//   `a(href=myvar) Home`
-// ].join(`\n`);
+const inputFile = process.argv[2];
 
-const pc = new PuggyCompiler(`index.pug`);
+if (input) {
+  const pc = new PuggyCompiler(path.basename(inputFile));
 
-pc.parse(`index.pug`);
-const result = pc.getAsHtmlFile();
+  pc.parse(inputFile);
+  const result = pc.getAsHtmlFile();
 
-console.log(result);
-writeFileSync(`index.html`, result);
+  writeFileSync(path.join(path.dirname(inputFile), `index.html`), result);
+}
