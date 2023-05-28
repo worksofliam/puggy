@@ -1,6 +1,6 @@
 # Puggy
 
-<img src="./example/meme.png" align="right" width="400px">
+<img src="./example/meme.png" align="right" width="300px">
 
 Don't take this seriously. The code is bad but the result is fun. Puggy takes the standard pug runtime but allows the frontend to react to changes to variables defined in your script.
 
