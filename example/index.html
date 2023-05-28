@@ -24,7 +24,7 @@ function pug_classes_object(r){var a="",n="";for(var o in r)o&&r[o]&&pug_has_own
 function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
 var pug_has_own_property=Object.prototype.hasOwnProperty;
 var pug_match_html=/["&<>]/;function navItem(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (active, id, name) {var pug_indent = [];
-pug_html = pug_html + "\u003Ca" + (pug_attr("class", pug_classes([(active === id ? 'bg-gray-400' : '') + ' rounded py-2 px-4 mx-2'], [true]), false, false)+" href=\"#\""+pug_attr("onclick", 'set_currentTab("' + id + '")', true, false)) + "\u003E" + (pug_escape(null == (pug_interp = name) ? "" : pug_interp)) + "\u003C\u002Fa\u003E";}.call(this,"active" in locals_for_with?locals_for_with.active:typeof active!=="undefined"?active:undefined,"id" in locals_for_with?locals_for_with.id:typeof id!=="undefined"?id:undefined,"name" in locals_for_with?locals_for_with.name:typeof name!=="undefined"?name:undefined));;return pug_html;}
+pug_html = pug_html + "\u003Ca" + (pug_attr("class", pug_classes([(active === id ? 'bg-gray-400' : '') + ' rounded py-2 px-4 mx-2'], [true]), false, false)+" href=\"#\""+pug_attr("onclick", 'set_currentTab("'+id+'")', true, false)) + "\u003E" + (pug_escape(null == (pug_interp = name) ? "" : pug_interp)) + "\u003C\u002Fa\u003E";}.call(this,"active" in locals_for_with?locals_for_with.active:typeof active!=="undefined"?active:undefined,"id" in locals_for_with?locals_for_with.id:typeof id!=="undefined"?id:undefined,"name" in locals_for_with?locals_for_with.name:typeof name!=="undefined"?name:undefined));;return pug_html;}
 return navItem({active, id, name})
 };
 const c_each_instagram = (imageNo) => {
@@ -36,87 +36,87 @@ return each_instagram({imageNo})
 };
 const set_loading = (newValue) => {
   loading = newValue;
-  event_4fca473d2dbd6247()
+  event_67418fa854ab2c45()
 }
 const set_currentTab = (newValue) => {
   currentTab = newValue;
-  event_e7eda5effa470834()
-  event_241dae98efc15c21()
-  event_68c90577a8812bc8()
-  event_f4521ac1d141501a()
-  event_7febe951d8c46443()
-  event_d7e623fdb294f855()
-  event_1ceda9c9c451160a()
-  event_7345c5f43f5da4d3()
-  event_7a0a8c6aed246d6d()
-  event_5fc36a8e839c44c8()
+  event_91470ff749a02ce1()
+  event_a40d6cd046822b4f()
+  event_f63f1641f5df1db0()
+  event_88288883d9849945()
+  event_0dc6f631f3f33f83()
+  event_dea1724bab65e5e1()
+  event_c85a962f78f3069c()
+  event_ccf000e0e6c8dc2c()
+  event_8e826ca8be2249c6()
+  event_8bb9ec675c621f4d()
 }
 const set_images = (newValue) => {
   images = newValue;
   event_instagram()
 }
-const event_7345c5f43f5da4d3 = () => {
+const event_ccf000e0e6c8dc2c = () => {
   const ev = currentTab === 'technology';
-  document.getElementById("bde481a9d5f13019").style.display = (ev === true ? '' : 'none');
+  document.getElementById("10d36f2347717955").style.display = (ev === true ? '' : 'none');
 }
-const event_7a0a8c6aed246d6d = () => {
+const event_8e826ca8be2249c6 = () => {
   const ev = currentTab === 'automotive';
-  document.getElementById("731711477f17ac01").style.display = (ev === true ? '' : 'none');
+  document.getElementById("e9327761506ca8d5").style.display = (ev === true ? '' : 'none');
 }
-const event_5fc36a8e839c44c8 = () => {
+const event_8bb9ec675c621f4d = () => {
   const ev = currentTab === 'sports';
-  document.getElementById("d9a5b2a8eddb4f6f").style.display = (ev === true ? '' : 'none');
+  document.getElementById("12bbd5f14316ffb3").style.display = (ev === true ? '' : 'none');
 }
-const event_4fca473d2dbd6247 = () => {
+const event_67418fa854ab2c45 = () => {
   const ev = loading;
-  document.getElementById("3daf9bc96c6e5def").style.display = (ev === true ? '' : 'none');
-  document.getElementById("1b4c78c7ce01a73b").style.display = (ev === false ? '' : 'none');
+  document.getElementById("9faf636183ee1a1a").style.display = (ev === true ? '' : 'none');
+  document.getElementById("5a9efc4f54924615").style.display = (ev === false ? '' : 'none');
 }
 const event_instagram = () => {
   document.getElementById("instagram").innerHTML = images.map(imageNo => c_each_instagram(imageNo)).join('');
 }
-const event_7dfbafe1a0ec5081 = () => {
-  document.getElementById("7dfbafe1a0ec5081").innerHTML = c_header('Minimal Blog', 'Lorem Ipsum Dolor Sit Amet');
+const event_28881a3631f7bb78 = () => {
+  document.getElementById("28881a3631f7bb78").innerHTML = c_header('Minimal Blog', 'Lorem Ipsum Dolor Sit Amet');
 }
-const event_e7eda5effa470834 = () => {
-  document.getElementById("e7eda5effa470834").innerHTML = c_navItem(currentTab, 'ABC', 'Cool thing');
+const event_91470ff749a02ce1 = () => {
+  document.getElementById("91470ff749a02ce1").innerHTML = c_navItem(currentTab, 'ABC', 'Cool thing');
 }
-const event_241dae98efc15c21 = () => {
-  document.getElementById("241dae98efc15c21").innerHTML = c_navItem(currentTab, 'technology', 'Technology');
+const event_a40d6cd046822b4f = () => {
+  document.getElementById("a40d6cd046822b4f").innerHTML = c_navItem(currentTab, 'technology', 'Technology');
 }
-const event_68c90577a8812bc8 = () => {
-  document.getElementById("68c90577a8812bc8").innerHTML = c_navItem(currentTab, 'automotive', 'Automotive');
+const event_f63f1641f5df1db0 = () => {
+  document.getElementById("f63f1641f5df1db0").innerHTML = c_navItem(currentTab, 'automotive', 'Automotive');
 }
-const event_f4521ac1d141501a = () => {
-  document.getElementById("f4521ac1d141501a").innerHTML = c_navItem(currentTab, 'finance', 'Finance');
+const event_88288883d9849945 = () => {
+  document.getElementById("88288883d9849945").innerHTML = c_navItem(currentTab, 'finance', 'Finance');
 }
-const event_7febe951d8c46443 = () => {
-  document.getElementById("7febe951d8c46443").innerHTML = c_navItem(currentTab, 'politics', 'Politics');
+const event_0dc6f631f3f33f83 = () => {
+  document.getElementById("0dc6f631f3f33f83").innerHTML = c_navItem(currentTab, 'politics', 'Politics');
 }
-const event_d7e623fdb294f855 = () => {
-  document.getElementById("d7e623fdb294f855").innerHTML = c_navItem(currentTab, 'culture', 'Culture');
+const event_dea1724bab65e5e1 = () => {
+  document.getElementById("dea1724bab65e5e1").innerHTML = c_navItem(currentTab, 'culture', 'Culture');
 }
-const event_1ceda9c9c451160a = () => {
-  document.getElementById("1ceda9c9c451160a").innerHTML = c_navItem(currentTab, 'sports', 'Sports');
+const event_c85a962f78f3069c = () => {
+  document.getElementById("c85a962f78f3069c").innerHTML = c_navItem(currentTab, 'sports', 'Sports');
 }
-const event_32903789d4cb5abe = () => {
-  document.getElementById("32903789d4cb5abe").innerHTML = c_blogEntry('Technology', 'Lorem Ipsum Dolor Sit Amet Dolor Sit Amet', 'David Grzyb', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..', 'April 25th, 2020', 'https://source.unsplash.com/collection/1346951/1000x500?sig=1');
+const event_f2aee68599ef4ef6 = () => {
+  document.getElementById("f2aee68599ef4ef6").innerHTML = c_blogEntry('Technology', 'Lorem Ipsum Dolor Sit Amet Dolor Sit Amet', 'David Grzyb', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..', 'April 25th, 2020', 'https://source.unsplash.com/collection/1346951/1000x500?sig=1');
 }
-const event_992172193bf2cf21 = () => {
-  document.getElementById("992172193bf2cf21").innerHTML = c_blogEntry('Automotive, Finance', 'Lorem Ipsum Dolor Sit Amet Dolor Sit Amet', 'David Grzyb', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..', 'January 12th, 2020', 'https://source.unsplash.com/collection/1346951/1000x500?sig=2');
+const event_c4a961c7cb1bedbb = () => {
+  document.getElementById("c4a961c7cb1bedbb").innerHTML = c_blogEntry('Automotive, Finance', 'Lorem Ipsum Dolor Sit Amet Dolor Sit Amet', 'David Grzyb', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..', 'January 12th, 2020', 'https://source.unsplash.com/collection/1346951/1000x500?sig=2');
 }
-const event_374895d93dd5c4e5 = () => {
-  document.getElementById("374895d93dd5c4e5").innerHTML = c_blogEntry('Sports', 'Lorem Ipsum Dolor Sit Amet Dolor Sit Amet', 'David Grzyb', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..', 'October 22nd, 2019', 'https://source.unsplash.com/collection/1346951/1000x500?sig=3');
+const event_e43a1ccc37850a0c = () => {
+  document.getElementById("e43a1ccc37850a0c").innerHTML = c_blogEntry('Sports', 'Lorem Ipsum Dolor Sit Amet Dolor Sit Amet', 'David Grzyb', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..', 'October 22nd, 2019', 'https://source.unsplash.com/collection/1346951/1000x500?sig=3');
 }
 
 addEventListener("DOMContentLoaded", (event) => {
 set_loading(true);
 set_currentTab('technology');
-set_images([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-event_7dfbafe1a0ec5081();
-event_32903789d4cb5abe();
-event_992172193bf2cf21();
-event_374895d93dd5c4e5();
+set_images([1,2,3,4,5,6,7,8,9]);
+event_28881a3631f7bb78();
+event_f2aee68599ef4ef6();
+event_c4a961c7cb1bedbb();
+event_e43a1ccc37850a0c();
 });
 </script>
 <!DOCTYPE html>
@@ -143,7 +143,7 @@ event_374895d93dd5c4e5();
     
   </script>
 </head>
-<div id="1b4c78c7ce01a73b" style="display: none;">
+<div id="5a9efc4f54924615" style="display: none;">
   <!-- Top Bar Nav-->
   <nav class="w-full py-4 bg-blue-800 shadow">
     <div class="w-full container mx-auto flex flex-wrap items-center justify-between">
@@ -157,33 +157,33 @@ event_374895d93dd5c4e5();
     </div>
   </nav>
   <!-- Text Header-->
-  <div id="7dfbafe1a0ec5081"></div>
+  <div id="28881a3631f7bb78"></div>
   <!-- Topic Nav-->
   <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
     <div class="block sm:hidden"><a class="block text-base font-bold uppercase text-center flex justify-center items-center md:hidden" href="#" @click="open = !open">Topics <i class="fas ml-2" :class="open ? 'fa-chevron-down': 'fa-chevron-up'"></i></a></div>
     <div class="w-full flex-grow sm:flex sm:items-center sm:w-auto" :class="open ? 'block': 'hidden'">
       <div class="w-full container mx-auto flex flex-col items-center justify-center text-sm font-bold uppercase mt-0 px-6 py-2 sm:flex-row">
-        <div id="e7eda5effa470834"></div>
-        <div id="241dae98efc15c21"></div>
-        <div id="68c90577a8812bc8"></div>
-        <div id="f4521ac1d141501a"></div>
-        <div id="7febe951d8c46443"></div>
-        <div id="d7e623fdb294f855"></div>
-        <div id="1ceda9c9c451160a"></div>
+        <div id="91470ff749a02ce1"></div>
+        <div id="a40d6cd046822b4f"></div>
+        <div id="f63f1641f5df1db0"></div>
+        <div id="88288883d9849945"></div>
+        <div id="0dc6f631f3f33f83"></div>
+        <div id="dea1724bab65e5e1"></div>
+        <div id="c85a962f78f3069c"></div>
       </div>
     </div>
   </nav>
   <div class="container mx-auto flex flex-wrap py-6">
     <!-- Posts Section-->
     <section class="w-full flex flex-col items-center px-3 md:w-2/3">
-      <div id="bde481a9d5f13019" style="display: none;">
-        <div id="32903789d4cb5abe"></div>
+      <div id="10d36f2347717955" style="display: none;">
+        <div id="f2aee68599ef4ef6"></div>
       </div>
-      <div id="731711477f17ac01" style="display: none;">
-        <div id="992172193bf2cf21"></div>
+      <div id="e9327761506ca8d5" style="display: none;">
+        <div id="c4a961c7cb1bedbb"></div>
       </div>
-      <div id="d9a5b2a8eddb4f6f" style="display: none;">
-        <div id="374895d93dd5c4e5"></div>
+      <div id="12bbd5f14316ffb3" style="display: none;">
+        <div id="e43a1ccc37850a0c"></div>
       </div>
       <!-- Pagination-->
     </section>
@@ -195,7 +195,7 @@ event_374895d93dd5c4e5();
       </div>
       <div class="w-full bg-white shadow flex flex-col my-4 p-6">
         <p class="text-xl font-semibold pb-5">Instagram</p>
-        <div class="grid grid-cols-3 gap-3" id="instagram"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=1"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=2"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=3"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=4"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=5"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=6"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=7"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=8"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=9">
+        <div class="grid grid-cols-3 gap-3" id="instagram"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=1">
         </div><a class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded flex items-center justify-center px-2 py-3 mt-6 hover:bg-blue-700" href="#"><i class="fab fa-instagram mr-2"></i> Follow @dgrzyb</a>
       </div>
     </aside>
@@ -212,7 +212,7 @@ event_374895d93dd5c4e5();
     </div>
   </footer>
 </div>
-<div id="3daf9bc96c6e5def" style="display: none;">
+<div id="9faf636183ee1a1a" style="display: none;">
   <div class="bg-gray-200 w-full min-h-screen flex justify-center items-center">
     <div class="bg-white p-10 shadow-md rounded-xl relative">
       <svg class="w-12 h-12 animate-spin text-indigo-400" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

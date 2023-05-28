@@ -50,6 +50,17 @@ module.exports = class PuggyCompiler {
 
     if (this.ast.nodes && this.ast.nodes.length) {
       this._parseBlock(this.ast.nodes);
+
+      let code = generateCode(this.ast, {
+        compileDebug: false,
+        pretty: true,
+        inlineRuntimeFunctions: true,
+        templateName: 'index'
+      });
+  
+      var func = wrap(code, 'index');
+      this.builtContent = func();
+
     } else {
       throw new Error(`No nodes to parse`);
     }
@@ -72,7 +83,11 @@ module.exports = class PuggyCompiler {
     return globalComponents;
   }
 
-  _getRuntimeJs() {
+  /**
+   * @param {object} [variableDefaults] Optional variables for runtime 
+   * @returns {string}
+   */
+  _getRuntimeJs(variableDefaults) {
     const script = [
       ...this.variables.map(v => `let ${v.name} = undefined;`),
 
@@ -117,7 +132,7 @@ module.exports = class PuggyCompiler {
       ``,
       `addEventListener("DOMContentLoaded", (event) => {`,
       // Set all variables when the page loads
-      ...this.variables.map(v => `set_${v.name}(${v.value});`),
+      ...this.variables.map(v => `set_${v.name}(${variableDefaults && variableDefaults[v.name] ? (JSON.stringify(variableDefaults[v.name]) || v.value) : v.value});`),
 
       // Render all the components that don't have variable parameters
       ...this.componentDivs.filter(c => c.variableParm !== true).map(c => {
@@ -145,24 +160,20 @@ module.exports = class PuggyCompiler {
     ].join(`\n`)
   }
 
-  getAsHtmlFile() {
-    let code = generateCode(this.ast, {
-      compileDebug: false,
-      pretty: true,
-      inlineRuntimeFunctions: true,
-      templateName: 'helloWorld'
-    });
+  /**
+   * @param {object} [variableDefaults] Optional variables for runtime 
+   * @returns {string}
+   */
+  getAsHtmlFile(variableDefaults) {
+    if (!this.builtContent) throw new Error(`Code has not compiled.`);
 
-    var func = wrap(code, 'helloWorld');
-    let result = func();
-
-    result = [
+    const result = [
       ``,
       `<script>`,
-      this._getRuntimeJs(),
+      this._getRuntimeJs(variableDefaults),
       `</script>`,
       ``
-    ].join(`\n`) + result
+    ].join(`\n`) + this.builtContent;
 
     return result;
   }
