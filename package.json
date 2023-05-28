@@ -1,4 +1,26 @@
 {
+  "name": "puggy",
+  "version": "1.0.0",
+  "description": "pug runtime, but for frontend",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/worksofliam/puggy.git"
+  },
+  "keywords": [
+    "pug",
+    "spa"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/worksofliam/puggy/issues"
+  },
+  "homepage": "https://github.com/worksofliam/puggy#readme",
   "dependencies": {
     "pug-code-gen": "^2.0.3",
     "pug-lexer": "^5.0.1",

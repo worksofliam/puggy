@@ -1,0 +1,254 @@
+
+<script>
+let loading = undefined;
+let currentTab = undefined;
+let images = undefined;
+const c_header = (title, subject) => {
+function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
+var pug_match_html=/["&<>]/;function header(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (subject, title) {var pug_indent = [];
+pug_html = pug_html + "\n\u003Cheader class=\"w-full container mx-auto\"\u003E\n  \u003Cdiv class=\"flex flex-col items-center py-12\"\u003E\u003Ca class=\"font-bold text-gray-800 uppercase text-5xl hover:text-gray-700\" href=\"#\"\u003E" + (pug_escape(null == (pug_interp = title) ? "" : pug_interp)) + "\u003C\u002Fa\u003E\n    \u003Cp class=\"text-lg text-gray-600\"\u003E" + (pug_escape(null == (pug_interp = subject) ? "" : pug_interp)) + "\u003C\u002Fp\u003E\n  \u003C\u002Fdiv\u003E\n\u003C\u002Fheader\u003E";}.call(this,"subject" in locals_for_with?locals_for_with.subject:typeof subject!=="undefined"?subject:undefined,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined));;return pug_html;}
+return header({title, subject})
+};
+const c_blogEntry = (category, title, author, previewText, date, imageUrl) => {
+function pug_attr(t,e,n,r){if(!1===e||null==e||!e&&("class"===t||"style"===t))return"";if(!0===e)return" "+(r?t:t+'="'+t+'"');var f=typeof e;return"object"!==f&&"function"!==f||"function"!=typeof e.toJSON||(e=e.toJSON()),"string"==typeof e||(e=JSON.stringify(e),n||-1===e.indexOf('"'))?(n&&(e=pug_escape(e))," "+t+'="'+e+'"'):" "+t+"='"+e.replace(/'/g,"&#39;")+"'"}
+function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
+var pug_match_html=/["&<>]/;function blogEntry(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (author, category, date, imageUrl, previewText, title) {var pug_indent = [];
+pug_html = pug_html + "\n\u003Carticle class=\"flex flex-col shadow my-4\"\u003E\n  \u003C!-- Article Image--\u003E\u003Ca class=\"hover:opacity-75\" href=\"#\"\u003E\u003Cimg" + (pug_attr("src", imageUrl, true, false)) + "\u002F\u003E\u003C\u002Fa\u003E\n  \u003Cdiv class=\"bg-white flex flex-col justify-start p-6\"\u003E\u003Ca class=\"text-blue-700 text-sm font-bold uppercase pb-4\" href=\"#\"\u003E" + (pug_escape(null == (pug_interp = category) ? "" : pug_interp)) + "\u003C\u002Fa\u003E\u003Ca class=\"text-3xl font-bold pb-4 hover:text-gray-700\" href=\"#\"\u003E" + (pug_escape(null == (pug_interp = title) ? "" : pug_interp)) + "\u003C\u002Fa\u003E\n    \u003Cp class=\"text-sm pb-3\" href=\"#\"\u003EBy \u003Ca class=\"font-semibold hover:text-gray-800\" href=\"#\"\u003E" + (pug_escape(null == (pug_interp = author) ? "" : pug_interp)) + "\u003C\u002Fa\u003E, Published on " + (pug_escape(null == (pug_interp = date) ? "" : pug_interp)) + "\n    \u003C\u002Fp\u003E\u003Ca class=\"pb-6\" href=\"#\"\u003E" + (pug_escape(null == (pug_interp = previewText) ? "" : pug_interp)) + "\u003C\u002Fa\u003E\u003Ca class=\"uppercase text-gray-800 hover:text-black\" href=\"#\"\u003EContinue Reading \u003Ci class=\"fas fa-arrow-right\"\u003E\u003C\u002Fi\u003E\u003C\u002Fa\u003E\n  \u003C\u002Fdiv\u003E\n\u003C\u002Farticle\u003E";}.call(this,"author" in locals_for_with?locals_for_with.author:typeof author!=="undefined"?author:undefined,"category" in locals_for_with?locals_for_with.category:typeof category!=="undefined"?category:undefined,"date" in locals_for_with?locals_for_with.date:typeof date!=="undefined"?date:undefined,"imageUrl" in locals_for_with?locals_for_with.imageUrl:typeof imageUrl!=="undefined"?imageUrl:undefined,"previewText" in locals_for_with?locals_for_with.previewText:typeof previewText!=="undefined"?previewText:undefined,"title" in locals_for_with?locals_for_with.title:typeof title!=="undefined"?title:undefined));;return pug_html;}
+return blogEntry({category, title, author, previewText, date, imageUrl})
+};
+const c_navItem = (active, id, name) => {
+function pug_attr(t,e,n,r){if(!1===e||null==e||!e&&("class"===t||"style"===t))return"";if(!0===e)return" "+(r?t:t+'="'+t+'"');var f=typeof e;return"object"!==f&&"function"!==f||"function"!=typeof e.toJSON||(e=e.toJSON()),"string"==typeof e||(e=JSON.stringify(e),n||-1===e.indexOf('"'))?(n&&(e=pug_escape(e))," "+t+'="'+e+'"'):" "+t+"='"+e.replace(/'/g,"&#39;")+"'"}
+function pug_classes(s,r){return Array.isArray(s)?pug_classes_array(s,r):s&&"object"==typeof s?pug_classes_object(s):s||""}
+function pug_classes_array(r,a){for(var s,e="",u="",c=Array.isArray(a),g=0;g<r.length;g++)(s=pug_classes(r[g]))&&(c&&a[g]&&(s=pug_escape(s)),e=e+u+s,u=" ");return e}
+function pug_classes_object(r){var a="",n="";for(var o in r)o&&r[o]&&pug_has_own_property.call(r,o)&&(a=a+n+o,n=" ");return a}
+function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
+var pug_has_own_property=Object.prototype.hasOwnProperty;
+var pug_match_html=/["&<>]/;function navItem(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (active, id, name) {var pug_indent = [];
+pug_html = pug_html + "\u003Ca" + (pug_attr("class", pug_classes([(active === id ? 'bg-gray-400' : '') + ' rounded py-2 px-4 mx-2'], [true]), false, false)+" href=\"#\""+pug_attr("onclick", 'set_currentTab("' + id + '")', true, false)) + "\u003E" + (pug_escape(null == (pug_interp = name) ? "" : pug_interp)) + "\u003C\u002Fa\u003E";}.call(this,"active" in locals_for_with?locals_for_with.active:typeof active!=="undefined"?active:undefined,"id" in locals_for_with?locals_for_with.id:typeof id!=="undefined"?id:undefined,"name" in locals_for_with?locals_for_with.name:typeof name!=="undefined"?name:undefined));;return pug_html;}
+return navItem({active, id, name})
+};
+const c_each_instagram = (imageNo) => {
+function pug_attr(t,e,n,r){if(!1===e||null==e||!e&&("class"===t||"style"===t))return"";if(!0===e)return" "+(r?t:t+'="'+t+'"');var f=typeof e;return"object"!==f&&"function"!==f||"function"!=typeof e.toJSON||(e=e.toJSON()),"string"==typeof e||(e=JSON.stringify(e),n||-1===e.indexOf('"'))?(n&&(e=pug_escape(e))," "+t+'="'+e+'"'):" "+t+"='"+e.replace(/'/g,"&#39;")+"'"}
+function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
+var pug_match_html=/["&<>]/;function each_instagram(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (imageNo) {var pug_indent = [];
+pug_html = pug_html + "\u003Cimg" + (" class=\"hover:opacity-75\""+pug_attr("src", 'https://source.unsplash.com/collection/1346951/150x150?sig=' + imageNo, true, false)) + "\u002F\u003E";}.call(this,"imageNo" in locals_for_with?locals_for_with.imageNo:typeof imageNo!=="undefined"?imageNo:undefined));;return pug_html;}
+return each_instagram({imageNo})
+};
+const set_loading = (newValue) => {
+  loading = newValue;
+  event_4fca473d2dbd6247()
+}
+const set_currentTab = (newValue) => {
+  currentTab = newValue;
+  event_e7eda5effa470834()
+  event_241dae98efc15c21()
+  event_68c90577a8812bc8()
+  event_f4521ac1d141501a()
+  event_7febe951d8c46443()
+  event_d7e623fdb294f855()
+  event_1ceda9c9c451160a()
+  event_7345c5f43f5da4d3()
+  event_7a0a8c6aed246d6d()
+  event_5fc36a8e839c44c8()
+}
+const set_images = (newValue) => {
+  images = newValue;
+  event_instagram()
+}
+const event_7345c5f43f5da4d3 = () => {
+  const ev = currentTab === 'technology';
+  document.getElementById("bde481a9d5f13019").style.display = (ev === true ? '' : 'none');
+}
+const event_7a0a8c6aed246d6d = () => {
+  const ev = currentTab === 'automotive';
+  document.getElementById("731711477f17ac01").style.display = (ev === true ? '' : 'none');
+}
+const event_5fc36a8e839c44c8 = () => {
+  const ev = currentTab === 'sports';
+  document.getElementById("d9a5b2a8eddb4f6f").style.display = (ev === true ? '' : 'none');
+}
+const event_4fca473d2dbd6247 = () => {
+  const ev = loading;
+  document.getElementById("3daf9bc96c6e5def").style.display = (ev === true ? '' : 'none');
+  document.getElementById("1b4c78c7ce01a73b").style.display = (ev === false ? '' : 'none');
+}
+const event_instagram = () => {
+  document.getElementById("instagram").innerHTML = images.map(imageNo => c_each_instagram(imageNo)).join('');
+}
+const event_7dfbafe1a0ec5081 = () => {
+  document.getElementById("7dfbafe1a0ec5081").innerHTML = c_header('Minimal Blog', 'Lorem Ipsum Dolor Sit Amet');
+}
+const event_e7eda5effa470834 = () => {
+  document.getElementById("e7eda5effa470834").innerHTML = c_navItem(currentTab, 'ABC', 'Cool thing');
+}
+const event_241dae98efc15c21 = () => {
+  document.getElementById("241dae98efc15c21").innerHTML = c_navItem(currentTab, 'technology', 'Technology');
+}
+const event_68c90577a8812bc8 = () => {
+  document.getElementById("68c90577a8812bc8").innerHTML = c_navItem(currentTab, 'automotive', 'Automotive');
+}
+const event_f4521ac1d141501a = () => {
+  document.getElementById("f4521ac1d141501a").innerHTML = c_navItem(currentTab, 'finance', 'Finance');
+}
+const event_7febe951d8c46443 = () => {
+  document.getElementById("7febe951d8c46443").innerHTML = c_navItem(currentTab, 'politics', 'Politics');
+}
+const event_d7e623fdb294f855 = () => {
+  document.getElementById("d7e623fdb294f855").innerHTML = c_navItem(currentTab, 'culture', 'Culture');
+}
+const event_1ceda9c9c451160a = () => {
+  document.getElementById("1ceda9c9c451160a").innerHTML = c_navItem(currentTab, 'sports', 'Sports');
+}
+const event_32903789d4cb5abe = () => {
+  document.getElementById("32903789d4cb5abe").innerHTML = c_blogEntry('Technology', 'Lorem Ipsum Dolor Sit Amet Dolor Sit Amet', 'David Grzyb', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..', 'April 25th, 2020', 'https://source.unsplash.com/collection/1346951/1000x500?sig=1');
+}
+const event_992172193bf2cf21 = () => {
+  document.getElementById("992172193bf2cf21").innerHTML = c_blogEntry('Automotive, Finance', 'Lorem Ipsum Dolor Sit Amet Dolor Sit Amet', 'David Grzyb', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..', 'January 12th, 2020', 'https://source.unsplash.com/collection/1346951/1000x500?sig=2');
+}
+const event_374895d93dd5c4e5 = () => {
+  document.getElementById("374895d93dd5c4e5").innerHTML = c_blogEntry('Sports', 'Lorem Ipsum Dolor Sit Amet Dolor Sit Amet', 'David Grzyb', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis porta dui. Ut eu iaculis massa. Sed ornare ligula lacus, quis iaculis dui porta volutpat. In sit amet posuere magna..', 'October 22nd, 2019', 'https://source.unsplash.com/collection/1346951/1000x500?sig=3');
+}
+
+addEventListener("DOMContentLoaded", (event) => {
+set_loading(true);
+set_currentTab('technology');
+set_images([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+event_7dfbafe1a0ec5081();
+event_32903789d4cb5abe();
+event_992172193bf2cf21();
+event_374895d93dd5c4e5();
+});
+</script>
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailwind Blog Template</title>
+  <meta name="author" content="David Grzyb">
+  <meta name="description" content="">
+  <!-- Tailwind-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+    .font-family-karla {
+    font-family: karla;
+    }
+  </style>
+  <!-- AlpineJS-->
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer=""></script>
+  <!-- Font Awesome-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+  <script>
+    setTimeout(() => {set_loading(false)}, 1000)
+    
+  </script>
+</head>
+<div id="1b4c78c7ce01a73b" style="display: none;">
+  <!-- Top Bar Nav-->
+  <nav class="w-full py-4 bg-blue-800 shadow">
+    <div class="w-full container mx-auto flex flex-wrap items-center justify-between">
+      <nav>
+        <ul class="flex items-center justify-between font-bold text-sm text-white uppercase no-underline">
+          <li><a class="px-4 hover:text-gray-200 hover:underline" href="#">Shop</a></li>
+          <li><a class="px-4 hover:text-gray-200 hover:underline" href="#">About</a></li>
+        </ul>
+      </nav>
+      <div class="flex items-center text-lg no-underline text-white pr-6"><a href="#"><i class="fab fa-facebook"></i></a><a class="pl-6" href="#"><i class="fab fa-instagram"></i></a><a class="pl-6" href="#"><i class="fab fa-twitter"></i></a><a class="pl-6" href="#"><i class="fab fa-linkedin"></i></a></div>
+    </div>
+  </nav>
+  <!-- Text Header-->
+  <div id="7dfbafe1a0ec5081"></div>
+  <!-- Topic Nav-->
+  <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
+    <div class="block sm:hidden"><a class="block text-base font-bold uppercase text-center flex justify-center items-center md:hidden" href="#" @click="open = !open">Topics <i class="fas ml-2" :class="open ? 'fa-chevron-down': 'fa-chevron-up'"></i></a></div>
+    <div class="w-full flex-grow sm:flex sm:items-center sm:w-auto" :class="open ? 'block': 'hidden'">
+      <div class="w-full container mx-auto flex flex-col items-center justify-center text-sm font-bold uppercase mt-0 px-6 py-2 sm:flex-row">
+        <div id="e7eda5effa470834"></div>
+        <div id="241dae98efc15c21"></div>
+        <div id="68c90577a8812bc8"></div>
+        <div id="f4521ac1d141501a"></div>
+        <div id="7febe951d8c46443"></div>
+        <div id="d7e623fdb294f855"></div>
+        <div id="1ceda9c9c451160a"></div>
+      </div>
+    </div>
+  </nav>
+  <div class="container mx-auto flex flex-wrap py-6">
+    <!-- Posts Section-->
+    <section class="w-full flex flex-col items-center px-3 md:w-2/3">
+      <div id="bde481a9d5f13019" style="display: none;">
+        <div id="32903789d4cb5abe"></div>
+      </div>
+      <div id="731711477f17ac01" style="display: none;">
+        <div id="992172193bf2cf21"></div>
+      </div>
+      <div id="d9a5b2a8eddb4f6f" style="display: none;">
+        <div id="374895d93dd5c4e5"></div>
+      </div>
+      <!-- Pagination-->
+    </section>
+    <!-- Sidebar Section-->
+    <aside class="w-full flex flex-col items-center px-3 md:w-1/3">
+      <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+        <p class="text-xl font-semibold pb-5">About Us</p>
+        <p class="pb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio sagittis tristique. Vestibulum ut finibus leo. In hac habitasse platea dictumst.</p><a class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded flex items-center justify-center px-2 py-3 mt-4 hover:bg-blue-700" href="#">Get to know us</a>
+      </div>
+      <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+        <p class="text-xl font-semibold pb-5">Instagram</p>
+        <div class="grid grid-cols-3 gap-3" id="instagram"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=1"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=2"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=3"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=4"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=5"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=6"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=7"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=8"><img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=9">
+        </div><a class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded flex items-center justify-center px-2 py-3 mt-6 hover:bg-blue-700" href="#"><i class="fab fa-instagram mr-2"></i> Follow @dgrzyb</a>
+      </div>
+    </aside>
+  </div>
+  <footer class="w-full border-t bg-white pb-12">
+    <div class="relative w-full flex items-center invisible md:visible md:pb-12" x-data="getCarouselData()">
+      <button class="absolute bg-blue-800 text-white text-2xl font-bold rounded-full w-16 h-16 ml-12 hover:bg-blue-700 hover:shadow" x-on:click="decrement()">&larr;</button>
+      <template x-for="image in images.slice(currentIndex, currentIndex + 6)" :key="images.indexOf(image)"><img class="w-1/6 hover:opacity-75" :src="image"></template>
+      <button class="absolute right-0 bg-blue-800 text-white text-2xl font-bold rounded-full w-16 h-16 mr-12 hover:bg-blue-700 hover:shadow" x-on:click="increment()">&rarr;</button>
+    </div>
+    <div class="w-full container mx-auto flex flex-col items-center">
+      <div class="flex flex-col text-center py-6 md:flex-row md:text-left md:justify-between"><a class="uppercase px-3" href="#">About Us</a><a class="uppercase px-3" href="#">Privacy Policy</a><a class="uppercase px-3" href="#">Terms &amp; Conditions</a><a class="uppercase px-3" href="#">Contact Us</a></div>
+      <div class="uppercase pb-6">&copy; myblog.com</div>
+    </div>
+  </footer>
+</div>
+<div id="3daf9bc96c6e5def" style="display: none;">
+  <div class="bg-gray-200 w-full min-h-screen flex justify-center items-center">
+    <div class="bg-white p-10 shadow-md rounded-xl relative">
+      <svg class="w-12 h-12 animate-spin text-indigo-400" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 4.75V6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M17.1266 6.87347L16.0659 7.93413" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M19.25 12L17.75 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M17.1266 17.1265L16.0659 16.0659" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M12 17.75V19.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M7.9342 16.0659L6.87354 17.1265" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M6.25 12L4.75 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M7.9342 7.93413L6.87354 6.87347" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </div>
+  </div>
+</div>
+<script>
+  function getCarouselData() {
+  return {
+  currentIndex: 0,
+  images: [
+  'https://source.unsplash.com/collection/1346951/800x800?sig=1',
+  'https://source.unsplash.com/collection/1346951/800x800?sig=2',
+  'https://source.unsplash.com/collection/1346951/800x800?sig=3',
+  'https://source.unsplash.com/collection/1346951/800x800?sig=4',
+  'https://source.unsplash.com/collection/1346951/800x800?sig=5',
+  'https://source.unsplash.com/collection/1346951/800x800?sig=6',
+  'https://source.unsplash.com/collection/1346951/800x800?sig=7',
+  'https://source.unsplash.com/collection/1346951/800x800?sig=8',
+  'https://source.unsplash.com/collection/1346951/800x800?sig=9',
+  ],
+  increment() {
+  this.currentIndex = this.currentIndex === this.images.length - 6 ? 0 : this.currentIndex + 1;
+  },
+  decrement() {
+  this.currentIndex = this.currentIndex === this.images.length - 6 ? 0 : this.currentIndex - 1;
+  },
+  }
+  }
+</script>
