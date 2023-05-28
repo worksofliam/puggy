@@ -1,0 +1,17 @@
+mixin blogEntry(category, title, author, previewText, date, imageUrl)
+  article.flex.flex-col.shadow.my-4
+    // Article Image
+    a(href='#' class='hover:opacity-75')
+      img(src=imageUrl)
+    .bg-white.flex.flex-col.justify-start.p-6
+      a.text-blue-700.text-sm.font-bold.uppercase.pb-4(href='#')=category
+      a.text-3xl.font-bold.pb-4(href='#' class='hover:text-gray-700')=title
+      p.text-sm.pb-3(href='#')
+        | By 
+        a.font-semibold(href='#' class='hover:text-gray-800')=author 
+        | , Published on 
+        =date
+      a.pb-6(href='#')=previewText
+      a.uppercase.text-gray-800(href='#' class='hover:text-black')
+        | Continue Reading 
+        i.fas.fa-arrow-right

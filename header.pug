@@ -1,0 +1,5 @@
+mixin header(title, subject)
+  header.w-full.container.mx-auto
+    .flex.flex-col.items-center.py-12
+      a.font-bold.text-gray-800.uppercase.text-5xl(class='hover:text-gray-700' href='#')=title
+      p.text-lg.text-gray-600=subject
